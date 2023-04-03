@@ -1,0 +1,74 @@
+{
+    "version": "0.11.0",
+    "codebase": {
+        "task": "PoseDetection",
+        "codebase": "mmpose",
+        "version": "0.29.0",
+        "pth": "../mmpose/litehrnet18_coco_256x192-6bace359_20211230.pth",
+        "config": "../mmpose/configs/body/2d_kpt_sview_rgb_img/topdown_heatmap/coco/litehrnet_18_coco_256x192.py"
+    },
+    "codebase_config": {
+        "type": "mmpose",
+        "task": "PoseDetection"
+    },
+    "onnx_config": {
+        "type": "onnx",
+        "export_params": true,
+        "keep_initializers_as_inputs": false,
+        "opset_version": 11,
+        "save_file": "end2end.onnx",
+        "input_names": [
+            "input"
+        ],
+        "output_names": [
+            "output"
+        ],
+        "input_shape": [
+            192,
+            256
+        ],
+        "optimize": true,
+        "dynamic_axes": {
+            "input": {
+                "0": "batch"
+            },
+            "output": {
+                "0": "batch"
+            }
+        }
+    },
+    "backend_config": {
+        "type": "tensorrt",
+        "common_config": {
+            "fp16_mode": false,
+            "max_workspace_size": 1073741824
+        },
+        "model_inputs": [
+            {
+                "input_shapes": {
+                    "input": {
+                        "min_shape": [
+                            1,
+                            3,
+                            256,
+                            192
+                        ],
+                        "opt_shape": [
+                            2,
+                            3,
+                            256,
+                            192
+                        ],
+                        "max_shape": [
+                            4,
+                            3,
+                            256,
+                            192
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "calib_config": {}
+}
